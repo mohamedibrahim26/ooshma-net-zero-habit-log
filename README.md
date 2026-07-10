@@ -1,20 +1,30 @@
-# 🌿 Ooshma: Net-Zero Habit Log
+# Ooshma: Net-Zero Habit Log
 
-A full-stack web application that helps users track their carbon footprint, build eco-friendly habits, and work toward a net-zero lifestyle — with an AI assistant, live food scanner, goal tracking, and automated PDF reports.
+Ooshma is a full-stack web app I built to help people track their carbon footprint and build better habits around sustainability. It includes an AI assistant, a live food barcode scanner, goal tracking, streak rewards, and weekly PDF reports.
+
+**Live Demo:** [ooshma-net-zero-habit-log.vercel.app](https://ooshma-net-zero-habit-log.vercel.app)
 
 ---
 
-## Features
+## What it does
 
-- **Dashboard** — Live CO₂ stats (today / month / year), category breakdown charts, daily trend, and global comparison
-- **Log Activity** — Log transport, energy, food, shopping, and waste activities with automatic CO₂ calculation
-- **Goals** — Set monthly or yearly CO₂ reduction goals and track progress with live percentage bars
-- **Achievements** — Unlock badges for streaks, logging milestones, and low-impact weeks
-- **AI Assistant (Ooshma AI)** — Ask anything about carbon emissions, get instant eco advice, and calculate CO₂ for any activity
-- **Food Scanner** — Search food products by name or scan/upload a barcode photo to see CO₂ impact and Nutri-Score
-- **Reports** — Download or email a personalized weekly PDF report with your footprint summary and tips
-- **Action Center** — Browse curated eco actions to reduce your footprint
-- **History** — View, filter, and delete past activity logs
+**Dashboard** - Shows your CO2 stats for today, this month, and this year. Includes charts for daily trends, category breakdown, and a comparison against the global average.
+
+**Log Activity** - Log activities across transport, energy, food, shopping, and waste. The app automatically calculates the CO2 emission based on what you entered.
+
+**Goals** - Set a monthly or yearly CO2 reduction target and track your progress with a live percentage bar.
+
+**Achievements** - Earn badges for things like logging streaks, completing 10 or 50 activities, or having a full low-impact week.
+
+**AI Assistant** - Ask the built-in AI anything about carbon emissions or eco habits. It can also estimate CO2 for a specific activity you describe.
+
+**Food Scanner** - Search any food product by name, or scan a barcode using your camera or by uploading a photo. It pulls data from Open Food Facts and shows the CO2 impact per 100g along with the Nutri-Score.
+
+**Reports** - Download your weekly summary as a PDF, or have it emailed directly to you.
+
+**Action Center** - Browse practical actions you can take to lower your footprint.
+
+**History** - View and filter all your past logs, with the option to delete entries.
 
 ---
 
@@ -23,15 +33,15 @@ A full-stack web application that helps users track their carbon footprint, buil
 | Layer | Technology |
 |---|---|
 | Backend | Python 3.10, Django 4.2, Django REST Framework |
-| Auth | JWT (djangorestframework-simplejwt) |
-| Database | SQLite (dev) |
+| Auth | JWT via djangorestframework-simplejwt |
+| Database | SQLite (local dev) |
 | Frontend | React 18, React Router v6 |
 | Styling | Custom CSS with CSS variables |
-| Barcode Scanning | ZXing (camera), Quagga2 (image upload) |
+| Barcode Scanning | ZXing for live camera, Quagga2 for uploaded images |
 | Food Data | Open Food Facts API |
 | PDF Reports | ReportLab |
 | Email | Gmail SMTP |
-| Containerisation | Docker + Docker Compose |
+| Containers | Docker + Docker Compose |
 
 ---
 
@@ -41,18 +51,18 @@ A full-stack web application that helps users track their carbon footprint, buil
 ooshma-net-zero-habit-log/
 ├── backend/
 │   ├── api/              # Activities, Goals, Streaks, Achievements, Food Scanner, Chat, Reports
-│   ├── users/            # Custom user model & auth endpoints
+│   ├── users/            # User model and auth endpoints
 │   ├── core/             # Emission factors, CO2 calculator, AI chat engine, suggestions
 │   ├── backend/          # Django settings, URLs, WSGI
-│   ├── .env.example      # Environment variable template
+│   ├── .env.example
 │   ├── requirements.txt
 │   └── Dockerfile
 ├── frontend/
 │   ├── src/
-│   │   ├── pages/        # All 9 page components + CSS
-│   │   ├── components/   # Layout (sidebar + topbar)
+│   │   ├── pages/        # All 9 page components with CSS
+│   │   ├── components/   # Sidebar and layout
 │   │   ├── api/          # Axios instance with JWT interceptor
-│   │   └── context/      # AuthContext
+│   │   └── context/      # Auth context
 │   ├── public/
 │   └── Dockerfile
 ├── docker-compose.yml
@@ -61,59 +71,41 @@ ooshma-net-zero-habit-log/
 
 ---
 
-## Getting Started (Local Development)
+## Running it locally
 
-### Prerequisites
+You will need Python 3.10+, Node.js 18+, and Git installed.
 
-- Python 3.10+
-- Node.js 18+
-- Git
-
----
-
-### 1. Clone the repository
+### 1. Clone the repo
 
 ```bash
 git clone https://github.com/mohamedibrahim26/ooshma-net-zero-habit-log.git
 cd ooshma-net-zero-habit-log
 ```
 
-### 2. Backend setup
+### 2. Set up the backend
 
 ```bash
 cd backend
 
-# Create and activate virtual environment
 python -m venv venv
 venv\Scripts\activate        # Windows
-# source venv/bin/activate   # Mac/Linux
+# source venv/bin/activate   # Mac or Linux
 
-# Install dependencies
 pip install -r requirements.txt
 
-# Copy and configure environment variables
 copy .env.example .env       # Windows
-# cp .env.example .env       # Mac/Linux
-# Open .env and set USE_SQLITE=True for local dev
+# cp .env.example .env       # Mac or Linux
 
-# Run migrations
 python manage.py makemigrations
 python manage.py migrate
-
-# Create a superuser (optional)
-python manage.py createsuperuser
-
-# Start the server
 python manage.py runserver
 ```
 
-Backend runs at `http://localhost:8000`
+The API will be running at `http://localhost:8000`
 
----
+### 3. Set up the frontend
 
-### 3. Frontend setup
-
-Open a **new** terminal window:
+Open a second terminal:
 
 ```bash
 cd frontend
@@ -121,60 +113,54 @@ npm install
 npm start
 ```
 
-Frontend runs at `http://localhost:3000`
+The app will open at `http://localhost:3000`
 
----
+### 4. Environment variables
 
-### 4. Environment Variables
+Open the `.env` file you just created inside the backend folder and fill it in:
 
-Copy `backend/.env.example` to `backend/.env` and fill in:
-
-```env
+```
 SECRET_KEY=your-django-secret-key
 DEBUG=True
 USE_SQLITE=True
 
-# Gmail (for email reports - optional)
 EMAIL_HOST_USER=your-gmail@gmail.com
 EMAIL_HOST_PASSWORD=your-app-password
 ```
 
-> For Gmail, go to Google Account → Security → 2-Step Verification → App Passwords, and generate one for "Mail".
+For Gmail, you need to generate an App Password from Google Account > Security > 2-Step Verification > App Passwords.
 
 ---
 
 ## Running with Docker
 
+If you prefer Docker, just run:
+
 ```bash
 docker-compose up --build
 ```
 
-- Frontend: `http://localhost:3000`
-- Backend API: `http://localhost:8000`
+Frontend will be at `http://localhost:3000` and the backend at `http://localhost:8000`.
 
 ---
 
-## API Overview
+## API endpoints
 
-| Method | Endpoint | Description |
+| Method | Endpoint | What it does |
 |---|---|---|
-| POST | `/api/users/register/` | Register a new user |
-| POST | `/api/users/login/` | Login and get JWT tokens |
-| GET/POST | `/api/activities/` | List or create activity logs |
-| GET | `/api/activities/dashboard/` | Dashboard statistics |
-| GET/POST | `/api/goals/` | List or create goals |
-| GET | `/api/streaks/` | Current streak and achievements |
-| POST | `/api/chat/` | AI assistant message |
-| GET | `/api/food-scan/` | Food product lookup by name or barcode |
-| GET | `/api/report/download/` | Download PDF report |
-| POST | `/api/report/send/` | Email PDF report to user |
+| POST | `/api/users/register/` | Create a new account |
+| POST | `/api/users/login/` | Login and receive JWT tokens |
+| GET/POST | `/api/activities/` | Fetch or create activity logs |
+| GET | `/api/activities/dashboard/` | Get dashboard stats |
+| GET/POST | `/api/goals/` | Fetch or create goals |
+| GET | `/api/streaks/` | Get current streak and achievements |
+| POST | `/api/chat/` | Send a message to the AI assistant |
+| GET | `/api/food-scan/` | Look up a food product by name or barcode |
+| GET | `/api/report/download/` | Download the weekly PDF |
+| POST | `/api/report/send/` | Email the weekly PDF to the user |
 
 ---
 
 ## License
 
-MIT License — free to use, modify, and distribute.
-
----
-
-Built with love for a greener planet.
+MIT - free to use and modify.
