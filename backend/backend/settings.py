@@ -1,12 +1,20 @@
 from pathlib import Path
 from decouple import config
+from django.core.exceptions import ImproperlyConfigured
 from datetime import timedelta
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = config('SECRET_KEY', default='django-insecure-dev-key-change-in-production')
+# Safe by default: DEBUG is off unless explicitly enabled, and a real secret key
+# is required outside local development.
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-DEBUG = config('DEBUG', default=True, cast=bool)
+SECRET_KEY = config('SECRET_KEY', default='')
+if not SECRET_KEY:
+    if DEBUG:
+        SECRET_KEY = 'django-insecure-local-dev-only'
+    else:
+        raise ImproperlyConfigured('SECRET_KEY must be set when DEBUG is False.')
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1').split(',')
 
@@ -138,4 +146,4 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
-DEFAULT_FROM_EMAIL = config('EMAIL_HOST_USER', default='noreply@ecotrack.com')
+DEFAULT_FROM_EMAIL = config('EMAIL_HOST_USER', default='noreply@ooshma.app')

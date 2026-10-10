@@ -1,6 +1,6 @@
 # Ooshma: Net-Zero Habit Log
 
-Ooshma is a full-stack web app I built to help people track their carbon footprint and build better habits around sustainability. It includes an AI assistant, a live food barcode scanner, goal tracking, streak rewards, and weekly PDF reports.
+Ooshma is a full-stack web app I built to help people track their carbon footprint and build better habits around sustainability. It includes a rule-based eco assistant, a live food barcode scanner, goal tracking, streak rewards, and weekly PDF reports.
 
 **Live Demo:** [ooshma-net-zero-habit-log.vercel.app](https://ooshma-net-zero-habit-log.vercel.app)
 
@@ -16,7 +16,7 @@ Ooshma is a full-stack web app I built to help people track their carbon footpri
 
 **Achievements** - Earn badges for things like logging streaks, completing 10 or 50 activities, or having a full low-impact week.
 
-**AI Assistant** - Ask the built-in AI anything about carbon emissions or eco habits. It can also estimate CO2 for a specific activity you describe.
+**Eco Assistant** - A rule-based chat assistant (keyword matching, no LLM) that answers common questions about carbon emissions and eco habits, and estimates CO2 for activities you describe.
 
 **Food Scanner** - Search any food product by name, or scan a barcode using your camera or by uploading a photo. It pulls data from Open Food Facts and shows the CO2 impact per 100g along with the Nutri-Score.
 
@@ -52,7 +52,7 @@ ooshma-net-zero-habit-log/
 ├── backend/
 │   ├── api/              # Activities, Goals, Streaks, Achievements, Food Scanner, Chat, Reports
 │   ├── users/            # User model and auth endpoints
-│   ├── core/             # Emission factors, CO2 calculator, AI chat engine, suggestions
+│   ├── core/             # Emission factors, CO2 calculator, rule-based chat engine, suggestions
 │   ├── backend/          # Django settings, URLs, WSGI
 │   ├── .env.example
 │   ├── requirements.txt
@@ -154,7 +154,7 @@ Frontend will be at `http://localhost:3000` and the backend at `http://localhost
 | GET | `/api/activities/dashboard/` | Get dashboard stats |
 | GET/POST | `/api/goals/` | Fetch or create goals |
 | GET | `/api/streaks/` | Get current streak and achievements |
-| POST | `/api/chat/` | Send a message to the AI assistant |
+| POST | `/api/chat/` | Send a message to the eco assistant |
 | GET | `/api/food-scan/` | Look up a food product by name or barcode |
 | GET | `/api/report/download/` | Download the weekly PDF |
 | POST | `/api/report/send/` | Email the weekly PDF to the user |

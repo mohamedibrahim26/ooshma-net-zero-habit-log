@@ -7,6 +7,10 @@ from datetime import timedelta, date
 import urllib.request
 import urllib.parse
 import json
+import logging
+import re
+
+logger = logging.getLogger(__name__)
 
 from .models import Activity, Goal, Streak, Achievement
 from .serializers import (
@@ -233,6 +237,11 @@ def food_scan(request):
     if not query and not barcode:
         return Response({'error': 'Provide q (search term) or barcode.'}, status=400)
 
+    if barcode and not re.fullmatch(r'\d{8,14}', barcode):
+        return Response({'error': 'Barcode must be 8 to 14 digits.'}, status=400)
+    if len(query) > 100:
+        return Response({'error': 'Search term is too long.'}, status=400)
+
     try:
         if barcode:
             url = "https://world.openfoodfacts.org/api/v0/product/{}.json".format(barcode)
@@ -240,11 +249,12 @@ def food_scan(request):
             encoded = urllib.parse.quote(query)
             url = "https://world.openfoodfacts.org/cgi/search.pl?search_terms={}&search_simple=1&action=process&json=1&page_size=5".format(encoded)
 
-        req = urllib.request.Request(url, headers={'User-Agent': 'EcoTrack/1.0'})
+        req = urllib.request.Request(url, headers={'User-Agent': 'Ooshma/1.0'})
         with urllib.request.urlopen(req, timeout=8) as resp:
             data = json.loads(resp.read().decode())
-    except Exception as e:
-        return Response({'error': 'Food database unavailable: {}'.format(str(e))}, status=503)
+    except Exception:
+        logger.exception('Open Food Facts request failed')
+        return Response({'error': 'Food database unavailable. Try again later.'}, status=503)
 
     results = []
     if barcode:
@@ -327,8 +337,9 @@ def send_weekly_report(request):
         send_report_email(user, pdf_bytes)
         Achievement.objects.get_or_create(user=user, achievement_type='report_sent')
         return Response({'message': 'Weekly report sent to {}!'.format(user.email)})
-    except Exception as e:
-        return Response({'error': str(e)}, status=500)
+    except Exception:
+        logger.exception('Sending weekly report failed for user %s', user.pk)
+        return Response({'error': 'Could not send the report. Try again later.'}, status=500)
 
 
 @api_view(['GET'])
@@ -340,7 +351,8 @@ def download_report(request):
     try:
         pdf_bytes = generate_pdf_report(user)
         response = HttpResponse(pdf_bytes, content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="ecotrack-report-{}.pdf"'.format(date.today())
+        response['Content-Disposition'] = 'attachment; filename="ooshma-report-{}.pdf"'.format(date.today())
         return response
-    except Exception as e:
-        return Response({'error': str(e)}, status=500)
+    except Exception:
+        logger.exception('Generating report failed for user %s', user.pk)
+        return Response({'error': 'Could not generate the report. Try again later.'}, status=500)
