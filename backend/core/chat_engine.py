@@ -1,5 +1,5 @@
 """
-Rule-based AI Chat Engine for EcoTrack.
+Rule-based AI Chat Engine for Ooshma.
 Understands carbon-related questions and gives smart, personalized responses.
 """
 import re
@@ -85,7 +85,7 @@ RESPONSES = {
         "Happy to help! 🌍 Together we can make a difference. Any more questions?",
     ],
     'about': [
-        "I'm EcoBot 🤖 — a smart assistant built into EcoTrack. I can help you:\n\n• Calculate CO₂ for any activity\n• Explain the impact of flights, food, and energy\n• Suggest ways to reduce your footprint\n• Explain carbon offsetting\n• Give you personalized eco-tips\n\nJust ask away!",
+        "I'm EcoBot 🤖 — a smart assistant built into Ooshma. I can help you:\n\n• Calculate CO₂ for any activity\n• Explain the impact of flights, food, and energy\n• Suggest ways to reduce your footprint\n• Explain carbon offsetting\n• Give you personalized eco-tips\n\nJust ask away!",
     ],
     'global_average': [
         "🌍 **Global Carbon Averages:**\n\n• World average: ~4,800 kg CO₂/person/year\n• USA: ~14,000 kg/year (one of the highest)\n• UK: ~5,500 kg/year\n• India: ~1,900 kg/year\n• Paris Agreement target: <2,000 kg/year by 2050\n\nThe biggest contributors are usually transport (especially flights), home energy, and diet. What area would you like to focus on?",
@@ -115,7 +115,7 @@ RESPONSES = {
         "🌱 **Top Ways to Reduce Your Carbon Footprint:**\n\nRanked by annual savings:\n\n1. 🚗 **Go car-free** → saves 2,000+ kg/year\n2. ✈️ **Take one fewer long-haul flight** → saves 1,500-2,000 kg/year\n3. ⚡ **Switch to renewable energy** → saves 1,000-1,500 kg/year\n4. 🥗 **Plant-based diet** → saves 700-1,500 kg/year\n5. 🏠 **Insulate your home** → saves 500-800 kg/year\n6. 🛍️ **Buy less new stuff** → saves 300-500 kg/year\n7. 🌱 **One meat-free day/week** → saves 400 kg/year\n8. 💡 **Switch to LED bulbs** → saves 80 kg/year\n\nWhat area do you want to focus on first?",
     ],
     'general_tips': [
-        "🌍 **EcoTrack Tips:**\n\nHere are some quick wins for today:\n\n• 🚲 Walk or cycle for trips under 5km\n• 🥗 Try one plant-based meal today\n• 💡 Turn off lights and unplug devices\n• 🚿 Take a shorter shower (saves ~0.5 kg CO₂)\n• 🛍️ Bring a reusable bag\n• ♻️ Recycle your waste correctly\n\nLog every activity in EcoTrack to track your progress. Small habits add up to big changes over a year!",
+        "🌍 **Ooshma Tips:**\n\nHere are some quick wins for today:\n\n• 🚲 Walk or cycle for trips under 5km\n• 🥗 Try one plant-based meal today\n• 💡 Turn off lights and unplug devices\n• 🚿 Take a shorter shower (saves ~0.5 kg CO₂)\n• 🛍️ Bring a reusable bag\n• ♻️ Recycle your waste correctly\n\nLog every activity in Ooshma to track your progress. Small habits add up to big changes over a year!",
     ],
     'calculate_prompt': [
         "I can help you calculate CO₂! 📊\n\nFor the most accurate calculation, use the **Log Activity** page — pick your category, type, and quantity.\n\nOr ask me like:\n• 'How much CO₂ is a 500km car trip?'\n• 'What's the carbon footprint of 1kg of beef?'\n• 'How much does flying 3000km emit?'",
